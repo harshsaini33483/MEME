@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+    <com.example.harshsaini.meme.UI.CameraSourcePreview
+        android:id="@+id/previewCamera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.example.harshsaini.meme.UI.CameraSourcePreview>
+
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/flipCamera"
+        android:layout_alignParentBottom="true"
+        android:background="none"
+        android:layout_margin="24dp"
+        android:src="@drawable/flip"
+        />
+    <ImageButton
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:id="@+id/cameraStore"
+        android:src="@drawable/imageCamera"
+        android:background="none"
+        android:layout_marginBottom="23dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+
+
+        />
+</RelativeLayout>
