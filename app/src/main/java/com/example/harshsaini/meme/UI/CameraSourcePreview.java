@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.harshsaini.meme.MainActivity;
 import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.CameraSource;
 
@@ -21,7 +23,7 @@ public class CameraSourcePreview extends ViewGroup {
     private Context mcontext;
     private boolean requestForCamera =false;
     private boolean surfaceAvilable=false;
-
+    private GraphicsOverlay graphicsOverlay;
 
 
     public CameraSourcePreview(Context context, AttributeSet attrs) {
@@ -63,13 +65,23 @@ public class CameraSourcePreview extends ViewGroup {
         if(cameraSource==null)
         {
             Log.e(LOG,"Camera Source is null in startCameraSource ");
+            stop();
+
         }
         else
         {
             mcameraSource=cameraSource;
             requestForCamera=true;
+            Log.w(LOG,requestForCamera+"  "+mcameraSource+"  "+" "+surfaceAvilable);
             startIfReady();
+
         }
+    }
+
+    public void startCameraServices(CameraSource cameraSource,GraphicsOverlay graphicsOverlay)
+    {
+        this.graphicsOverlay=graphicsOverlay;
+        startCameraServices(cameraSource);
     }
 
 
@@ -79,21 +91,51 @@ public class CameraSourcePreview extends ViewGroup {
         {
             try {
                 mcameraSource.start(msurfaceView.getHolder());
+                Log.w(LOG,"Camera Source Preview  is Available");
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            if (graphicsOverlay != null) {
+                Size size = mcameraSource.getPreviewSize();
+                int min = Math.min(size.getWidth(), size.getHeight());
+                int max = Math.max(size.getWidth(), size.getHeight());
+                if (mcontext.getResources().getConfiguration().orientation==Configuration.ORIENTATION_PORTRAIT) {
+                    // Swap width and height sizes when in portrait, since it will be rotated by
+                    // 90 degrees
+                    graphicsOverlay.setCameraInfo(min, max, mcameraSource.getCameraFacing());
+                } else {
+                    graphicsOverlay.setCameraInfo(max, min, mcameraSource.getCameraFacing());
+                }
+                graphicsOverlay.clear();
+            }
+
+
+
             requestForCamera=false;
 
         }
     }
 
 
+    public void stop() {
+        if (mcameraSource != null) {
+            mcameraSource.stop();
+        }
+    }
+
+    public void release() {
+        if (mcameraSource != null) {
+            mcameraSource.release();
+            mcameraSource = null;
+        }
+    }
+
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
 
-        int previewWidth=480,previewHeight=640;
+        int previewWidth=320,previewHeight=240;
         if(mcameraSource!=null)
         {
             Size size=mcameraSource.getPreviewSize();
@@ -134,9 +176,11 @@ public class CameraSourcePreview extends ViewGroup {
                 // One dimension will be cropped.  We shift child over or up by this offset and adjust
                 // the size to maintain the proper aspect ratio.
                 getChildAt(i).layout(
-                        -1 * childXOffset, -1 * childYOffset,
+                        0 * childXOffset, 0 * childYOffset,
                         childWidth - childXOffset, childHeight - childYOffset);
             }
+
+
 
             startIfReady();
         }
