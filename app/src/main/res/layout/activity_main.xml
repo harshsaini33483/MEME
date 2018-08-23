@@ -21,6 +21,8 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+
         android:id="@+id/flipCamera"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="28dp"
@@ -30,6 +32,8 @@
     <ImageButton
         android:layout_width="60dp"
         android:layout_height="50dp"
+        android:background="@android:color/transparent"
+
         android:id="@+id/cameraStore"
         android:src="@drawable/imagecamera"
         android:layout_marginBottom="22dp"
@@ -44,6 +48,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="28dp"
+        android:background="@android:color/transparent"
         android:layout_marginRight="24dp"
         android:src="@drawable/plate1"/>
 </RelativeLayout>

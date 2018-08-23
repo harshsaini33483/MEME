@@ -26,6 +26,10 @@ public class ImagesFilters {
         list.add(R.drawable.thirteen);
         list.add(R.drawable.fourteen);
 
+        list.add(R.drawable.memehappy2);
+        list.add(R.drawable.happycrying);
+        list.add(R.drawable.forever);
+
 
         return list;
 

@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         captureImage=(ImageButton)findViewById(R.id.cameraStore);
         mGraphicsOverlay=(GraphicsOverlay)findViewById(R.id.graphicOverlay);
         changePlate=(ImageButton)findViewById(R.id.changeFilters);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         flipCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         detector = new FaceDetector.Builder(context)
                 .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
-                .setLandmarkType(FaceDetector.NO_LANDMARKS)
+                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
                 .setMode(FaceDetector.FAST_MODE)
                 .build();
 
@@ -153,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void cameraSourceObjectFacing(Context context,FaceDetector face)
     {
-        mcameraSource=new CameraSource.Builder(context,face).setRequestedFps(60.0f)
-                .setRequestedPreviewSize(2048,1024)
+        mcameraSource=new CameraSource.Builder(context,face).setRequestedFps(50.0f)
+                .setRequestedPreviewSize(640, 480)
                 .setFacing(cameraFacing)
                 .setAutoFocusEnabled(true).build();
 
@@ -195,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.w(MAINLOG,"onResume");
 
+        mcameraSource=null;
+        createCameraSource(getApplicationContext());
         onStartCamera();
     }
 
